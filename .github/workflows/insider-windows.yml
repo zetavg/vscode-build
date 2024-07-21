@@ -9,6 +9,7 @@ on:
       generate_assets:
         type: boolean
         description: Generate assets
+        default: true
       checkout_pr:
         type: string
         description: Checkout PR
@@ -63,7 +64,7 @@ jobs:
 
       - name: Check PR or cron
         env:
-          GENERATE_ASSETS: ${{ github.event.inputs.generate_assets }}
+          GENERATE_ASSETS: ${{ github.event.inputs.generate_assets != 'false' }}
         run: ./check_cron_or_pr.sh
 
       - name: Check existing VSCodium tags/releases
@@ -80,7 +81,7 @@ jobs:
       MS_COMMIT: ${{ needs.check.outputs.MS_COMMIT }}
       MS_TAG: ${{ needs.check.outputs.MS_TAG }}
       RELEASE_VERSION: ${{ needs.check.outputs.RELEASE_VERSION }}
-      SHOULD_BUILD: ${{ (needs.check.outputs.SHOULD_BUILD == 'yes' || github.event.inputs.generate_assets == 'true') && 'yes' || 'no' }}
+      SHOULD_BUILD: ${{ (needs.check.outputs.SHOULD_BUILD == 'yes' || github.event.inputs.generate_assets != 'false') && 'yes' || 'no' }}
       VSCODE_ARCH: 'x64'
     outputs:
       BUILD_SOURCEVERSION: ${{ env.BUILD_SOURCEVERSION }}
@@ -166,7 +167,7 @@ jobs:
       MS_COMMIT: ${{ needs.check.outputs.MS_COMMIT }}
       MS_TAG: ${{ needs.check.outputs.MS_TAG }}
       RELEASE_VERSION: ${{ needs.check.outputs.RELEASE_VERSION }}
-      SHOULD_BUILD: ${{ (needs.check.outputs.SHOULD_BUILD == 'yes' || github.event.inputs.generate_assets == 'true') && 'yes' || 'no' }}
+      SHOULD_BUILD: ${{ (needs.check.outputs.SHOULD_BUILD == 'yes' || github.event.inputs.generate_assets != 'false') && 'yes' || 'no' }}
       SHOULD_DEPLOY: ${{ needs.check.outputs.SHOULD_DEPLOY }}
       VSCODE_ARCH: ${{ matrix.vscode_arch }}
     outputs:
@@ -220,7 +221,7 @@ jobs:
 
       - name: Prepare assets
         run: ./prepare_assets.sh
-        if: env.SHOULD_BUILD == 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets == 'true')
+        if: env.SHOULD_BUILD == 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets != 'false')
 
       - name: Upload unsigned artifacts
         id: upload-unsigned-artifacts
@@ -231,7 +232,7 @@ jobs:
             assets/*.exe
             assets/*.msi
           retention-days: 1
-        if: env.SHOULD_BUILD == 'yes' && vars.DISABLE_INSIDER_WINDOWS_SIGNING != 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets == 'true')
+        if: env.SHOULD_BUILD == 'yes' && vars.DISABLE_INSIDER_WINDOWS_SIGNING != 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets != 'false')
 
       - name: Signing
         uses: signpath/github-action-submit-signing-request@v1
@@ -246,11 +247,11 @@ jobs:
           # 3h to manually approve the request
           wait-for-completion-timeout-in-seconds: 10800
           output-artifact-directory: assets/
-        if: env.SHOULD_BUILD == 'yes' && vars.DISABLE_INSIDER_WINDOWS_SIGNING != 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets == 'true')
+        if: env.SHOULD_BUILD == 'yes' && vars.DISABLE_INSIDER_WINDOWS_SIGNING != 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets != 'false')
 
       - name: Prepare checksums
         run: ./prepare_checksums.sh
-        if: env.SHOULD_BUILD == 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets == 'true')
+        if: env.SHOULD_BUILD == 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets != 'false')
 
       - name: Release
         env:
@@ -273,7 +274,7 @@ jobs:
           name: bin-${{ matrix.vscode_arch }}
           path: assets/
           retention-days: 3
-        if: env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'no' && github.event.inputs.generate_assets == 'true'
+        if: env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'no' && github.event.inputs.generate_assets != 'false'
 
   winget:
     needs: build

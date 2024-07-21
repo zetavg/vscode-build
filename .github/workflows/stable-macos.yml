@@ -9,6 +9,7 @@ on:
       generate_assets:
         type: boolean
         description: Generate assets
+        default: true
       checkout_pr:
         type: string
         description: Checkout PR
@@ -79,7 +80,7 @@ jobs:
 
       - name: Check PR or cron
         env:
-          GENERATE_ASSETS: ${{ github.event.inputs.generate_assets }}
+          GENERATE_ASSETS: ${{ github.event.inputs.generate_assets != 'false' }}
         run: . check_cron_or_pr.sh
 
       - name: Check existing VSCodium tags/releases
@@ -102,7 +103,7 @@ jobs:
           CERTIFICATE_OSX_P12_PASSWORD: ${{ secrets.CERTIFICATE_OSX_NEW_P12_PASSWORD }}
           CERTIFICATE_OSX_TEAM_ID: ${{ secrets.CERTIFICATE_OSX_NEW_TEAM_ID }}
         run: ./prepare_assets.sh
-        if: env.SHOULD_BUILD == 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets == 'true')
+        if: env.SHOULD_BUILD == 'yes' && (env.SHOULD_DEPLOY == 'yes' || github.event.inputs.generate_assets != 'false')
 
       - name: Release
         env:
@@ -124,7 +125,7 @@ jobs:
           name: bin-${{ matrix.vscode_arch }}
           path: assets/
           retention-days: 3
-        if: env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'no' && github.event.inputs.generate_assets == 'true'
+        if: env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'no' && github.event.inputs.generate_assets != 'false'
 
       - name: Clean up keychain
         if: always()
