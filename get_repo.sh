@@ -103,7 +103,7 @@ fi
 echo "MS_TAG=\"${MS_TAG}\""
 echo "MS_COMMIT=\"${MS_COMMIT}\""
 
-git fetch --depth 5000 origin "${MS_COMMIT}" # using `--depth 5000` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error
+git fetch --shallow-since="2024-07-20T00:00:00" origin "${MS_COMMIT}" # using `--shallow-since` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error
 git checkout FETCH_HEAD
 
 if [[ -n "${Z_BRANCH_NAME}" ]]; then
