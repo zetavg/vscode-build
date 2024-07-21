@@ -105,14 +105,14 @@ echo "MS_COMMIT=\"${MS_COMMIT}\""
 
 git --version
 
-git fetch --shallow-since="Sat, 20 Jul 2024 00:00:00 +0000" origin "${MS_COMMIT}" # using `--shallow-since` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error, timezone should be included to avoid "fatal: error processing shallow info: 4" errors (see: https://github.com/git/git/blob/master/Documentation/date-formats.txt)
+git fetch --shallow-exclude "1.90.0" origin "${MS_COMMIT}" # using `--shallow-exclude` instead of `--depth 1` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error
 git checkout FETCH_HEAD
 
 if [[ -n "${Z_BRANCH_NAME}" ]]; then
   # Merge zetavg/vscode
   echo "Z_BRANCH_NAME=\"${Z_BRANCH_NAME}\""
   git remote add zetavg https://github.com/zetavg/vscode.git
-  git fetch --depth 1000 zetavg "${Z_BRANCH_NAME}"
+  git fetch --shallow-exclude 89de5a8d4d6205e5b11647eb6a74844ca23d2573 zetavg "${Z_BRANCH_NAME}"
   git merge --no-edit "zetavg/${Z_BRANCH_NAME}"
 fi
 
