@@ -106,6 +106,13 @@ echo "MS_COMMIT=\"${MS_COMMIT}\""
 git fetch --depth 1 origin "${MS_COMMIT}"
 git checkout FETCH_HEAD
 
+if [[ -n "${Z_BRANCH_NAME}" ]]; then
+  # Merge zetavg/vscode
+  git remote add zetavg https://github.com/zetavg/vscode.git
+  git fetch --depth 1000 zetavg "${Z_BRANCH_NAME}"
+  git merge --no-edit "zetavg/"${Z_BRANCH_NAME}""
+fi
+
 cd ..
 
 # for GH actions
