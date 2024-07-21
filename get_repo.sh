@@ -105,7 +105,7 @@ echo "MS_COMMIT=\"${MS_COMMIT}\""
 
 git --version
 
-git fetch --shallow-since="2024-07-20" origin "${MS_COMMIT}" # using `--shallow-since` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error
+git fetch --shallow-since="Sat, 20 Jul 2024 00:00:00 +0000" origin "${MS_COMMIT}" # using `--shallow-since` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error, timezone should be included to avoid "fatal: error processing shallow info: 4" errors (see: https://github.com/git/git/blob/master/Documentation/date-formats.txt)
 git checkout FETCH_HEAD
 
 if [[ -n "${Z_BRANCH_NAME}" ]]; then
