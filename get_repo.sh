@@ -103,8 +103,21 @@ fi
 echo "MS_TAG=\"${MS_TAG}\""
 echo "MS_COMMIT=\"${MS_COMMIT}\""
 
-git fetch --depth 1 origin "${MS_COMMIT}"
+git --version
+
+git fetch --shallow-exclude "1.90.0" origin "${MS_COMMIT}" # using `--shallow-exclude` instead of `--depth 1` so that we may merge zetavg/vscode without the "refusing to merge unrelated histories" error
 git checkout FETCH_HEAD
+
+if [[ -n "${Z_BRANCH_NAME}" && "${Z_BRANCH_NAME}" != "none" && "${Z_BRANCH_NAME}" != "no" ]]; then
+  # Merge zetavg/vscode
+  echo "Z_BRANCH_NAME=\"${Z_BRANCH_NAME}\""
+  git remote add zetavg https://github.com/zetavg/vscode.git
+  git fetch --depth 200 zetavg "${Z_BRANCH_NAME}"
+
+  git config user.email "ci@example.com"
+  git config user.name "CI"
+  git merge --no-edit "zetavg/${Z_BRANCH_NAME}"
+fi
 
 cd ..
 
