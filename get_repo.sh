@@ -112,7 +112,7 @@ if [[ -n "${Z_BRANCH_NAME}" ]]; then
   # Merge zetavg/vscode
   echo "Z_BRANCH_NAME=\"${Z_BRANCH_NAME}\""
   git remote add zetavg https://github.com/zetavg/vscode.git
-  git fetch --shallow-exclude 89de5a8d4d6205e5b11647eb6a74844ca23d2573 zetavg "${Z_BRANCH_NAME}"
+  git fetch --depth 1000 zetavg "${Z_BRANCH_NAME}"
   git merge --no-edit "zetavg/${Z_BRANCH_NAME}"
 fi
 
