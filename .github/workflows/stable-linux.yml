@@ -12,6 +12,9 @@ on:
       checkout_pr:
         type: string
         description: Checkout PR
+      z_branch_name:
+        type: string
+        description: Branch name of zetavg/vscode to merge, defaults to "main" and will not merge if "none"
   repository_dispatch:
     types: [stable]
   push:
@@ -57,6 +60,8 @@ jobs:
         run: ./get_pr.sh
 
       - name: Clone VSCode repo
+        env:
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
         run: ./get_repo.sh
 
       - name: Check PR or cron
