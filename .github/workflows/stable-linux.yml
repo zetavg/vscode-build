@@ -66,6 +66,7 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ALL: 'yes'
         run: ./check_tags.sh
 
@@ -185,8 +186,9 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_REH: 'no'
-        run: ./check_tags.sh
+        run: ./get_repo.sh && ./check_tags.sh # need to get_repo first since we are using the vscode dir to determine the latest commit in zetavg/vscode
         if: env.SHOULD_BUILD == 'yes'
 
       - name: Install libkrb5-dev
@@ -289,8 +291,9 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ONLY_REH: 'yes'
-        run: ./check_tags.sh
+        run: ./get_repo.sh && ./check_tags.sh # need to get_repo first since we are using the vscode dir to determine the latest commit in zetavg/vscode
 
       - name: Download vscode artifact
         uses: actions/download-artifact@v3
@@ -355,8 +358,9 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ONLY_REH: 'yes'
-        run: ./check_tags.sh
+        run: ./get_repo.sh && ./check_tags.sh # need to get_repo first since we are using the vscode dir to determine the latest commit in zetavg/vscode
 
       - name: Install libkrb5-dev
         run: sudo apt-get install -y libkrb5-dev

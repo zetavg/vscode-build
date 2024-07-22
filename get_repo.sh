@@ -47,7 +47,7 @@ if [[ -z "${RELEASE_VERSION}" ]]; then
   fi
 else
   if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+-insider$ ]];
+    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+-insider ]];
     then
       MS_TAG="${BASH_REMATCH[1]}"
     else
@@ -55,7 +55,7 @@ else
       exit 1
     fi
   else
-    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+$ ]];
+    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+ ]];
     then
       MS_TAG="${BASH_REMATCH[1]}"
     else
@@ -114,6 +114,8 @@ if [[ -n "${Z_BRANCH_NAME}" && "${Z_BRANCH_NAME}" != "none" && "${Z_BRANCH_NAME}
   git remote add zetavg https://github.com/zetavg/vscode.git
   git fetch --depth 200 zetavg "${Z_BRANCH_NAME}"
   git merge --no-edit "zetavg/${Z_BRANCH_NAME}"
+  RELEASE_VERSION="${RELEASE_VERSION}-zp$(git rev-parse --short=8 "zetavg/${Z_BRANCH_NAME}")"
+  echo "RELEASE_VERSION=\"${RELEASE_VERSION}\""
 fi
 
 cd ..

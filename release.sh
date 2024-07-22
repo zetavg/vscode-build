@@ -16,11 +16,16 @@ if [[ $( gh release view --repo "${ASSETS_REPOSITORY}" "${RELEASE_VERSION}" 2>&1
   echo "Creating release '${RELEASE_VERSION}'"
 
   if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-    NOTES="update vscode to [${MS_COMMIT}](https://github.com/microsoft/vscode/tree/${MS_COMMIT})"
+    NOTES="VSCode [${MS_COMMIT}](https://github.com/microsoft/vscode/tree/${MS_COMMIT})"
     CREATE_OPTIONS=""
   else
-    NOTES="update vscode to [${MS_TAG}](https://code.visualstudio.com/updates/v$( echo "${MS_TAG//./_}" | cut -d'_' -f 1,2 ))"
-    CREATE_OPTIONS="--generate-notes"
+    NOTES="VSCode [${MS_TAG}](https://code.visualstudio.com/updates/v$( echo "${MS_TAG//./_}" | cut -d'_' -f 1,2 ))"
+    # CREATE_OPTIONS="--generate-notes"
+    CREATE_OPTIONS=""
+  fi
+
+  if [[ "${RELEASE_VERSION}" =~ -zp(.+)?$ ]]; then
+    NOTES="${NOTES} with [zetavg/vscode](https://github.com/zetavg/vscode) commit [\`${BASH_REMATCH[1]}\`](https://github.com/zetavg/vscode/commit/${BASH_REMATCH[1]})"
   fi
 
   gh release create "${RELEASE_VERSION}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION}" --notes "${NOTES}" ${CREATE_OPTIONS}
