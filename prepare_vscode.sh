@@ -174,6 +174,7 @@ else
   setpath "product" "nameShort" "Code"
   setpath "product" "nameLong" "VSCode"
   setpath "product" "applicationName" "codium"
+  setpath "product" "dataFolderName" ".vscodium"
   setpath "product" "linuxIconName" "vscodium"
   setpath "product" "quality" "stable"
   setpath "product" "urlProtocol" "vscodium"
