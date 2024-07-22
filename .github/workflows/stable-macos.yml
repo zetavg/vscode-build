@@ -28,7 +28,7 @@ on:
     - '**/*.md'
 
 env:
-  APP_NAME: VSCodium
+  APP_NAME: VSCode
   ASSETS_REPOSITORY: ${{ github.repository }}
   OS_NAME: osx
   VERSIONS_REPOSITORY: ${{ github.repository_owner }}/versions
