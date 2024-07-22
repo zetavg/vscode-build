@@ -1,0 +1,14 @@
+diff --git a/src/vs/platform/environment/node/userDataPath.js b/src/vs/platform/environment/node/userDataPath.js
+index 1e89f1fee06..eda8a1a1e6d 100644
+--- a/src/vs/platform/environment/node/userDataPath.js
++++ b/src/vs/platform/environment/node/userDataPath.js
+@@ -54,6 +54,9 @@
+ 			// 0. Running out of sources has a fixed productName
+ 			if (process.env['VSCODE_DEV']) {
+ 				productName = 'code-oss-dev';
++			} else {
++				// Force productName to be 'VSCodium' otherwise
++				productName = 'VSCodium';
+ 			}
+ 
+ 			// 1. Support portable mode
