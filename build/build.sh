@@ -5,7 +5,7 @@
 # to run with Bash: "C:\Program Files\Git\bin\bash.exe" ./build/build.sh
 ###
 
-export APP_NAME="VSCodium"
+export APP_NAME="VSCode"
 export BINARY_NAME="codium"
 export CI_BUILD="no"
 export SHOULD_BUILD="yes"
