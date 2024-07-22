@@ -70,16 +70,16 @@ jobs:
         run: ./update_upstream.sh
         if: env.SHOULD_BUILD == 'yes' && github.event.inputs.dont_update != 'true'
 
-      - name: Prepare source
-        run: ./prepare_src.sh
-        if: env.SHOULD_BUILD == 'yes'
+      # - name: Prepare source
+      #   run: ./prepare_src.sh
+      #   if: env.SHOULD_BUILD == 'yes'
 
-      - name: Release source
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USERNAME: ${{ github.repository_owner }}
-        run: ./release.sh
-        if: env.SHOULD_BUILD == 'yes'
+      # - name: Release source
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GITHUB_USERNAME: ${{ github.repository_owner }}
+      #   run: ./release.sh
+      #   if: env.SHOULD_BUILD == 'yes'
 
       - name: Dispatch builds
         uses: peter-evans/repository-dispatch@v3
