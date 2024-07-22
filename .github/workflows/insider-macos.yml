@@ -78,6 +78,7 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
         run: . check_tags.sh
         if: env.SHOULD_DEPLOY == 'yes'
 
