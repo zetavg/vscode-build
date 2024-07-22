@@ -74,6 +74,7 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ALL: 'yes'
         run: ./check_tags.sh
 
@@ -220,6 +221,7 @@ jobs:
           CHECK_REH: 'no'
           DISABLE_APPIMAGE: ${{ vars.DISABLE_INSIDER_APPIMAGE }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
         run: ./check_tags.sh
         if: env.DISABLED != 'yes' && env.SHOULD_BUILD == 'yes'
 
@@ -356,6 +358,7 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ONLY_REH: 'yes'
         run: ./check_tags.sh
         if: env.DISABLED != 'yes'
@@ -438,6 +441,7 @@ jobs:
       - name: Check existing VSCodium tags/releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ONLY_REH: 'yes'
         run: ./check_tags.sh
 

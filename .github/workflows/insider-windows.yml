@@ -71,6 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHECK_ALL: 'yes'
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
         run: ./check_tags.sh
 
   compile:

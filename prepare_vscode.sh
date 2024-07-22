@@ -202,7 +202,8 @@ cat product.json
 # package.json
 cp package.json{,.bak}
 
-setpath "package" "version" "${RELEASE_VERSION%-insider}"
+setpath "package" "version" "$( echo "${RELEASE_VERSION}" | sed -n -E "s/^(.*)\.([0-9]+)(-.*)?$/\1/p" )"
+setpath "package" "release" "$( echo "${RELEASE_VERSION}" | sed -n -E "s/^(.*)\.([0-9]+)(-.*)?$/\2/p" )"
 
 replace 's|Microsoft Corporation|VSCodium|' package.json
 

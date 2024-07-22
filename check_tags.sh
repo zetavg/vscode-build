@@ -15,6 +15,8 @@ GH_HOST="${GH_HOST:-github.com}"
 
 APP_NAME_LC="$( echo "${APP_NAME}" | awk '{print tolower($0)}' )"
 
+cd vscode || { echo "'vscode' dir not found"; exit 1; }
+
 if [[ "${SHOULD_DEPLOY}" == "no" ]]; then
   ASSETS="null"
 else
@@ -22,9 +24,12 @@ else
   LATEST_VERSION=$( echo "${GITHUB_RESPONSE}" | jq -c -r '.tag_name' )
   RECHECK_ASSETS="${SHOULD_BUILD}"
 
-  if [[ "${LATEST_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-5]) ]]; then
+  if [[ "${LATEST_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)[^-]*(-[^z][^p][^-]+)?(-zp(.+))? ]]; then
     if [[ "${MS_TAG}" != "${BASH_REMATCH[1]}" ]]; then
       echo "New VSCode version, new build"
+      export SHOULD_BUILD="yes"
+    elif [[ -n "${Z_BRANCH_NAME}" && "$(git rev-parse --short=8 "zetavg/${Z_BRANCH_NAME}")" != "${BASH_REMATCH[4]}" ]]; then
+      echo "New patch on zetavg/vscode"
       export SHOULD_BUILD="yes"
     elif [[ "${NEW_RELEASE}" == "true" ]]; then
       echo "New release build"
@@ -59,6 +64,8 @@ else
     exit 1
   fi
 fi
+
+cd ..
 
 contains() {
   # add " to match the end of a string so any hashs won't be matched by mistake

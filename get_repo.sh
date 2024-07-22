@@ -8,6 +8,8 @@ if [[ "${CI_BUILD}" != "no" ]]; then
   git config --global --add safe.directory "/__w/$( echo "${GITHUB_REPOSITORY}" | awk '{print tolower($0)}' )"
 fi
 
+RELEASE_VERSION_ALREADY_SET="no"
+
 if [[ -z "${RELEASE_VERSION}" ]]; then
   if [[ "${VSCODE_LATEST}" == "yes" ]] || [[ ! -f "./upstream/${VSCODE_QUALITY}.json" ]]; then
     echo "Retrieve lastest version"
@@ -35,8 +37,10 @@ if [[ -z "${RELEASE_VERSION}" ]]; then
     RELEASE_VERSION="${MS_TAG}${TIME_PATCH}"
   fi
 else
+  RELEASE_VERSION_ALREADY_SET="yes"
+
   if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-5])[0-9]+-insider$ ]];
+    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+-insider ]];
     then
       MS_TAG="${BASH_REMATCH[1]}"
     else
@@ -44,7 +48,7 @@ else
       exit 1
     fi
   else
-    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-5])[0-9]+$ ]];
+    if [[ "${RELEASE_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+ ]];
     then
       MS_TAG="${BASH_REMATCH[1]}"
     else
@@ -106,6 +110,11 @@ if [[ -n "${Z_BRANCH_NAME}" && "${Z_BRANCH_NAME}" != "none" && "${Z_BRANCH_NAME}
   git config user.email "ci@example.com"
   git config user.name "CI"
   git merge --no-edit "zetavg/${Z_BRANCH_NAME}"
+
+  if [[ "${RELEASE_VERSION_ALREADY_SET}" == "no" ]]; then
+    RELEASE_VERSION="${RELEASE_VERSION}-zp$(git rev-parse --short=8 "zetavg/${Z_BRANCH_NAME}")"
+    echo "RELEASE_VERSION=\"${RELEASE_VERSION}\""
+  fi
 fi
 
 cd ..
