@@ -105,6 +105,9 @@ jobs:
           python-version: '3.11'
         if: env.SHOULD_BUILD == 'yes'
 
+      - run: sudo apt-get update
+        if: env.SHOULD_BUILD == 'yes'
+
       - name: Install libkrb5-dev
         run: sudo apt-get install -y libkrb5-dev
         if: env.SHOULD_BUILD == 'yes'
@@ -190,6 +193,9 @@ jobs:
           Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_REH: 'no'
         run: ./get_repo.sh && ./check_tags.sh # need to get_repo first since we are using the vscode dir to determine the latest commit in zetavg/vscode
+        if: env.SHOULD_BUILD == 'yes'
+
+      - run: sudo apt-get update
         if: env.SHOULD_BUILD == 'yes'
 
       - name: Install libkrb5-dev
@@ -282,6 +288,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - run: sudo apt-get update
+        if: env.SHOULD_BUILD == 'yes'
+
       - name: Install libkrb5-dev
         run: sudo apt-get install -y libkrb5-dev
 
@@ -362,6 +371,9 @@ jobs:
           Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
           CHECK_ONLY_REH: 'yes'
         run: ./get_repo.sh && ./check_tags.sh # need to get_repo first since we are using the vscode dir to determine the latest commit in zetavg/vscode
+
+      - run: sudo apt-get update
+        if: env.SHOULD_BUILD == 'yes'
 
       - name: Install libkrb5-dev
         run: sudo apt-get install -y libkrb5-dev
