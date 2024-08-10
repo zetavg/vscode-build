@@ -10,6 +10,11 @@ if [[ -z "${BUILD_SOURCEVERSION}" ]]; then
       BUILD_SOURCEVERSION=$( echo "${RELEASE_VERSION/-*/}" | checksum )
     fi
 
+    # To let the commit version (shown in the About dialog of VSCode) be the same as the official build since a vaild commit might be needed for some extensions such as GitHub Codespaces to work.
+    if [[ ! -z "${MS_COMMIT}" ]]; then
+      BUILD_SOURCEVERSION="${MS_COMMIT}"
+    fi
+
     echo "BUILD_SOURCEVERSION=\"${BUILD_SOURCEVERSION}\""
 
     # for GH actions
