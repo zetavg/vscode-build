@@ -126,6 +126,8 @@ jobs:
         if: env.SHOULD_BUILD == 'yes'
 
       - name: Clone VSCode repo
+        env:
+          Z_BRANCH_NAME: ${{ github.event.inputs.z_branch_name || 'main' }}
         run: ./get_repo.sh
         if: env.SHOULD_BUILD == 'yes'
 
