@@ -13,36 +13,36 @@ if [[ "${OS_NAME}" == "osx" ]]; then
       RUNNER_TEMP="${TMPDIR}"
     fi
 
-    CERTIFICATE_P12="${APP_NAME}.p12"
-    KEYCHAIN="${RUNNER_TEMP}/buildagent.keychain"
-    AGENT_TEMPDIRECTORY="${RUNNER_TEMP}"
-    # shellcheck disable=SC2006
-    KEYCHAINS=`security list-keychains | xargs`
+    # CERTIFICATE_P12="${APP_NAME}.p12"
+    # KEYCHAIN="${RUNNER_TEMP}/buildagent.keychain"
+    # AGENT_TEMPDIRECTORY="${RUNNER_TEMP}"
+    # # shellcheck disable=SC2006
+    # KEYCHAINS=`security list-keychains | xargs`
 
-    rm -f "${KEYCHAIN}"
+    # rm -f "${KEYCHAIN}"
 
-    echo "${CERTIFICATE_OSX_P12_DATA}" | base64 --decode > "${CERTIFICATE_P12}"
+    # echo "${CERTIFICATE_OSX_P12_DATA}" | base64 --decode > "${CERTIFICATE_P12}"
 
-    echo "+ create temporary keychain"
-    security create-keychain -p pwd "${KEYCHAIN}"
-    security set-keychain-settings -lut 21600 "${KEYCHAIN}"
-    security unlock-keychain -p pwd "${KEYCHAIN}"
-    # shellcheck disable=SC2086
-    security list-keychains -s $KEYCHAINS "${KEYCHAIN}"
-    # security show-keychain-info "${KEYCHAIN}"
+    # echo "+ create temporary keychain"
+    # security create-keychain -p pwd "${KEYCHAIN}"
+    # security set-keychain-settings -lut 21600 "${KEYCHAIN}"
+    # security unlock-keychain -p pwd "${KEYCHAIN}"
+    # # shellcheck disable=SC2086
+    # security list-keychains -s $KEYCHAINS "${KEYCHAIN}"
+    # # security show-keychain-info "${KEYCHAIN}"
 
-    echo "+ import certificate to keychain"
-    security import "${CERTIFICATE_P12}" -k "${KEYCHAIN}" -P "${CERTIFICATE_OSX_P12_PASSWORD}" -T /usr/bin/codesign
-    security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k pwd "${KEYCHAIN}" > /dev/null
-    # security find-identity "${KEYCHAIN}"
+    # echo "+ import certificate to keychain"
+    # security import "${CERTIFICATE_P12}" -k "${KEYCHAIN}" -P "${CERTIFICATE_OSX_P12_PASSWORD}" -T /usr/bin/codesign
+    # security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k pwd "${KEYCHAIN}" > /dev/null
+    # # security find-identity "${KEYCHAIN}"
 
-    CODESIGN_IDENTITY="$( security find-identity -v -p codesigning "${KEYCHAIN}" | grep -oEi "([0-9A-F]{40})" | head -n 1 )"
+    # CODESIGN_IDENTITY="$( security find-identity -v -p codesigning "${KEYCHAIN}" | grep -oEi "([0-9A-F]{40})" | head -n 1 )"
 
-    echo "+ signing"
-    export CODESIGN_IDENTITY AGENT_TEMPDIRECTORY
+    # echo "+ signing"
+    # export CODESIGN_IDENTITY AGENT_TEMPDIRECTORY
 
-    DEBUG="electron-osx-sign*" node vscode/build/darwin/sign.js "$( pwd )"
-    # codesign --display --entitlements :- ""
+    # DEBUG="electron-osx-sign*" node vscode/build/darwin/sign.js "$( pwd )"
+    # # codesign --display --entitlements :- ""
 
     # echo "+ notarize"
 
