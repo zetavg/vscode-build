@@ -86,9 +86,9 @@ if [[ "${OS_NAME}" == "osx" ]]; then
 
   if [[ -n "${CERTIFICATE_OSX_P12_DATA}" ]]; then
     echo "+ clean"
-    security delete-keychain "${KEYCHAIN}"
-    # shellcheck disable=SC2086
-    security list-keychains -s $KEYCHAINS
+    # security delete-keychain "${KEYCHAIN}"
+    # # shellcheck disable=SC2086
+    # security list-keychains -s $KEYCHAINS
   fi
 
   VSCODE_PLATFORM="darwin"
