@@ -71,13 +71,13 @@ if [[ "${OS_NAME}" == "osx" ]]; then
     cd ..
   fi
 
-  if [[ -n "${CERTIFICATE_OSX_P12_DATA}" && "${SHOULD_BUILD_DMG}" != "no" ]]; then
-    echo "Building and moving DMG"
-    pushd "VSCode-darwin-${VSCODE_ARCH}"
-    npx create-dmg ./*.app .
-    mv ./*.dmg "../assets/${APP_NAME}.${VSCODE_ARCH}.${RELEASE_VERSION}.dmg"
-    popd
-  fi
+  # if [[ -n "${CERTIFICATE_OSX_P12_DATA}" && "${SHOULD_BUILD_DMG}" != "no" ]]; then
+  #   echo "Building and moving DMG"
+  #   pushd "VSCode-darwin-${VSCODE_ARCH}"
+  #   npx create-dmg ./*.app .
+  #   mv ./*.dmg "../assets/${APP_NAME}.${VSCODE_ARCH}.${RELEASE_VERSION}.dmg"
+  #   popd
+  # fi
 
   if [[ "${SHOULD_BUILD_SRC}" == "yes" ]]; then
     git archive --format tar.gz --output="./assets/${APP_NAME}-${RELEASE_VERSION}-src.tar.gz" HEAD
