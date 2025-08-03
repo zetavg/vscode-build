@@ -68,6 +68,7 @@ cd vscode || { echo "'vscode' dir not found"; exit 1; }
 
 git init -q
 git remote add origin https://github.com/Microsoft/vscode.git
+git remote add patches https://github.com/zetavg/vscode.git
 
 # figure out latest tag by calling MS update API
 if [[ -z "${MS_TAG}" ]]; then
@@ -92,8 +93,22 @@ fi
 echo "MS_TAG=\"${MS_TAG}\""
 echo "MS_COMMIT=\"${MS_COMMIT}\""
 
-git fetch --depth 1 origin "${MS_COMMIT}"
-git checkout FETCH_HEAD
+# Since we are doing rebases, we need to set the user name and email
+if [[ "${CI}" == "true" ]]; then
+  git config --global user.email "ci@github.com"
+  git config --global user.name "CI"
+fi
+
+echo "Fetching origin..."
+git fetch --depth 20000 origin "${MS_COMMIT}"
+echo "Fetching patches..."
+git fetch --depth 100 patches main
+echo "Preparing build branch..."
+git checkout patches/main
+PATCHES_COMMIT=$( git rev-parse HEAD )
+git checkout -b ci-build
+echo "Rebasing patches..."
+git rebase "${MS_COMMIT}"
 
 cd ..
 
@@ -101,9 +116,11 @@ cd ..
 if [[ "${GITHUB_ENV}" ]]; then
   echo "MS_TAG=${MS_TAG}" >> "${GITHUB_ENV}"
   echo "MS_COMMIT=${MS_COMMIT}" >> "${GITHUB_ENV}"
+  echo "PATCHES_COMMIT=${PATCHES_COMMIT}" >> "${GITHUB_ENV}"
   echo "RELEASE_VERSION=${RELEASE_VERSION}" >> "${GITHUB_ENV}"
 fi
 
 export MS_TAG
 export MS_COMMIT
+export PATCHES_COMMIT
 export RELEASE_VERSION
