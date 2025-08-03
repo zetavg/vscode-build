@@ -70,6 +70,8 @@ jobs:
         if: env.VSCODE_ARCH == 'x64'
 
       - name: Clone VSCode repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: . get_repo.sh
 
       - name: Check PR or cron
