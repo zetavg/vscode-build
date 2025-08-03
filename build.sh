@@ -71,15 +71,15 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
     VSCODE_PLATFORM="linux"
   fi
 
-  if [[ "${SHOULD_BUILD_REH}" != "no" ]]; then
-    npm run gulp minify-vscode-reh
-    npm run gulp "vscode-reh-${VSCODE_PLATFORM}-${VSCODE_ARCH}-min-ci"
-  fi
+  # if [[ "${SHOULD_BUILD_REH}" != "no" ]]; then
+  #   npm run gulp minify-vscode-reh
+  #   npm run gulp "vscode-reh-${VSCODE_PLATFORM}-${VSCODE_ARCH}-min-ci"
+  # fi
 
-  if [[ "${SHOULD_BUILD_REH_WEB}" != "no" ]]; then
-    npm run gulp minify-vscode-reh-web
-    npm run gulp "vscode-reh-web-${VSCODE_PLATFORM}-${VSCODE_ARCH}-min-ci"
-  fi
+  # if [[ "${SHOULD_BUILD_REH_WEB}" != "no" ]]; then
+  #   npm run gulp minify-vscode-reh-web
+  #   npm run gulp "vscode-reh-web-${VSCODE_PLATFORM}-${VSCODE_ARCH}-min-ci"
+  # fi
 
   cd ..
 fi
