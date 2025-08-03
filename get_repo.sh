@@ -27,7 +27,23 @@ if [[ -z "${RELEASE_VERSION}" ]]; then
     fi
   fi
 
-  TIME_PATCH=$( printf "%04d" $(($(date +%-j) * 24 + $(date +%-H))) )
+  # Get the latest matching release version from VSCodium/vscodium releases
+  # This ensures we use a TIME_PATCH that corresponds to an existing release
+  LATEST_MATCHING_RELEASE=$( ./get_time_patch.sh "${MS_TAG}" )
+
+  if [[ -n "${LATEST_MATCHING_RELEASE}" ]]; then
+    # Extract TIME_PATCH from the existing release
+    if [[ "${LATEST_MATCHING_RELEASE}" =~ ^${MS_TAG//./\.}([0-9]+)(-insider)?$ ]]; then
+      TIME_PATCH="${BASH_REMATCH[1]}"
+      echo "Using TIME_PATCH from existing release: ${TIME_PATCH}"
+    else
+      echo "Error: Could not parse TIME_PATCH from VSCodium/vscodium version ${LATEST_MATCHING_RELEASE}."
+      exit 1
+    fi
+  else
+    echo "Error: No matching VSCodium/vscodium release found."
+    exit 1
+  fi
 
   if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
     RELEASE_VERSION="${MS_TAG}${TIME_PATCH}-insider"
