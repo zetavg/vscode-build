@@ -173,9 +173,9 @@ if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   setpath "product" "win32ContextMenu.x64.clsid" "90AAD229-85FD-43A3-B82D-8598A88829CF"
   setpath "product" "win32ContextMenu.arm64.clsid" "7544C31C-BDBF-4DDF-B15E-F73A46D6723D"
 else
-  setpath "product" "nameShort" "VSCodium"
-  setpath "product" "nameLong" "VSCodium"
-  setpath "product" "applicationName" "codium"
+  setpath "product" "nameShort" "Code"
+  setpath "product" "nameLong" "Code"
+  setpath "product" "applicationName" "code"
   setpath "product" "linuxIconName" "vscodium"
   setpath "product" "quality" "stable"
   setpath "product" "urlProtocol" "vscodium"
@@ -219,8 +219,8 @@ if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   setpath "resources/server/manifest" "name" "VSCodium - Insiders"
   setpath "resources/server/manifest" "short_name" "VSCodium - Insiders"
 else
-  setpath "resources/server/manifest" "name" "VSCodium"
-  setpath "resources/server/manifest" "short_name" "VSCodium"
+  setpath "resources/server/manifest" "name" "Code"
+  setpath "resources/server/manifest" "short_name" "Code"
 fi
 
 # announcements
