@@ -168,9 +168,9 @@ if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   setpath "product" "win32TunnelServiceMutex" "vscodiuminsiders-tunnelservice"
   setpath "product" "win32TunnelMutex" "vscodiuminsiders-tunnel"
 else
-  setpath "product" "nameShort" "VSCodium"
-  setpath "product" "nameLong" "VSCodium"
-  setpath "product" "applicationName" "codium"
+  setpath "product" "nameShort" "Code"
+  setpath "product" "nameLong" "Code"
+  setpath "product" "applicationName" "code"
   setpath "product" "linuxIconName" "vscodium"
   setpath "product" "quality" "stable"
   setpath "product" "urlProtocol" "vscodium"
@@ -212,8 +212,8 @@ if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   setpath "resources/server/manifest" "name" "VSCodium - Insiders"
   setpath "resources/server/manifest" "short_name" "VSCodium - Insiders"
 else
-  setpath "resources/server/manifest" "name" "VSCodium"
-  setpath "resources/server/manifest" "short_name" "VSCodium"
+  setpath "resources/server/manifest" "name" "Code"
+  setpath "resources/server/manifest" "short_name" "Code"
 fi
 
 # announcements
