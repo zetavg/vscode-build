@@ -27,7 +27,7 @@ on:
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   APP_NAME: VSCodium
-  ASSETS_REPOSITORY: ${{ github.repository }}
+  ASSETS_REPOSITORY: VSCodium/vscodium
   BINARY_NAME: codium
   DISABLE_UPDATE: 'yes'
   GH_REPO_PATH: ${{ github.repository }}

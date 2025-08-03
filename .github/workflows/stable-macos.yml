@@ -26,7 +26,7 @@ on:
 
 env:
   APP_NAME: VSCodium
-  ASSETS_REPOSITORY: ${{ github.repository }}
+  ASSETS_REPOSITORY: VSCodium/vscodium
   BINARY_NAME: codium
   GH_REPO_PATH: ${{ github.repository }}
   ORG_NAME: ${{ github.repository_owner }}
