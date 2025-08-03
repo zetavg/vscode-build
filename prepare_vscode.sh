@@ -3,6 +3,8 @@
 
 set -e
 
+export DISABLE_UPDATE='yes'
+
 if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   cp -rp src/insider/* vscode/
 else
