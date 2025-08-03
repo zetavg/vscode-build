@@ -55,6 +55,12 @@ jobs:
         run: ./get_pr.sh
 
       - name: Clone VSCode repo
+        env:
+          # In get_repo.sh we uses GitHub API to get matching release of
+          # VSCodium to make sure our version number matches the one in
+          # VSCodium so we can reuse REH.
+          # To not be rate-limited while doing so we need the GITHUB_TOKEN.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./get_repo.sh
 
       - name: Check PR or cron
@@ -118,6 +124,12 @@ jobs:
       #   if: env.SHOULD_BUILD == 'yes'
 
       - name: Clone VSCode repo
+        env:
+          # In get_repo.sh we uses GitHub API to get matching release of
+          # VSCodium to make sure our version number matches the one in
+          # VSCodium so we can reuse REH.
+          # To not be rate-limited while doing so we need the GITHUB_TOKEN.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./get_repo.sh
         if: env.SHOULD_BUILD == 'yes'
 
