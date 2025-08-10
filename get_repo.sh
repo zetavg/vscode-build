@@ -109,6 +109,12 @@ fi
 echo "MS_TAG=\"${MS_TAG}\""
 echo "MS_COMMIT=\"${MS_COMMIT}\""
 
+# Since we are doing rebases, we need to set the user name and email
+if [[ "${CI}" == "true" ]]; then
+  git config --global user.email "ci@github.com"
+  git config --global user.name "CI"
+fi
+
 echo "Fetching origin..."
 git fetch --depth 20000 origin "${MS_COMMIT}"
 echo "Fetching patches..."
