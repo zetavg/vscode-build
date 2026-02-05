@@ -1,4 +1,5 @@
 name: stable-windows
+run-name: ${{ github.event.inputs.release_version && format('stable-windows v{0}', github.event.inputs.release_version) || 'stable-windows' }}
 
 on:
   workflow_dispatch:
@@ -12,6 +13,9 @@ on:
       checkout_pr:
         type: string
         description: Checkout PR
+      release_version:
+        type: string
+        description: Release version
   repository_dispatch:
     types: [stable]
   push:
@@ -33,6 +37,7 @@ env:
   OS_NAME: windows
   VERSIONS_REPOSITORY: ${{ github.repository_owner }}/versions
   VSCODE_QUALITY: stable
+  RELEASE_VERSION: ${{ github.event.inputs.release_version }}
 
 jobs:
   check:
