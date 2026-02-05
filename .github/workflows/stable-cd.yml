@@ -1,0 +1,62 @@
+name: stable-cd
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        type: string
+        description: Release version
+  schedule:
+    - cron: '0 18 * * *'
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      release_version: ${{ steps.resolve.outputs.release_version }}
+    steps:
+      - name: Resolve release version
+        id: resolve
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_VERSION: ${{ github.event.inputs.release_version }}
+        run: |
+          if [[ -n "${INPUT_VERSION}" ]]; then
+            echo "release_version=${INPUT_VERSION}" >> "${GITHUB_OUTPUT}"
+            echo "Using provided release version: ${INPUT_VERSION}"
+          else
+            LATEST_TAG=$(
+              curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+                "https://api.github.com/repos/VSCodium/vscodium/releases?per_page=1" \
+              | jq -r '.[0].tag_name // empty'
+            )
+
+            if [[ -z "${LATEST_TAG}" ]]; then
+              echo "::error::Failed to resolve latest release from VSCodium/vscodium"
+              exit 1
+            fi
+
+            echo "release_version=${LATEST_TAG}" >> "${GITHUB_OUTPUT}"
+            echo "Resolved latest release version: ${LATEST_TAG}"
+          fi
+
+  linux:
+    needs: resolve
+    uses: ./.github/workflows/stable-linux.yml
+    with:
+      release_version: ${{ needs.resolve.outputs.release_version }}
+    secrets: inherit
+
+  macos:
+    needs: resolve
+    uses: ./.github/workflows/stable-macos.yml
+    with:
+      release_version: ${{ needs.resolve.outputs.release_version }}
+    secrets: inherit
+
+  windows:
+    needs: resolve
+    uses: ./.github/workflows/stable-windows.yml
+    with:
+      release_version: ${{ needs.resolve.outputs.release_version }}
+    secrets: inherit
