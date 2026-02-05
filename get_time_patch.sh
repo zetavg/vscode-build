@@ -25,14 +25,45 @@ else
     GITHUB_TOKEN="${GH_TOKEN:-${GITHUB_TOKEN:-${GH_ENTERPRISE_TOKEN:-${GITHUB_ENTERPRISE_TOKEN}}}}"
 fi
 
-# Function to make API request with optional authentication
+# Function to make API request with optional authentication and retry
 make_api_request() {
     local url="$1"
-    if [[ -n "${GITHUB_TOKEN}" ]]; then
-        curl -s -H "Authorization: token ${GITHUB_TOKEN}" "${url}"
-    else
-        curl -s "${url}"
-    fi
+    local max_retries=10
+    local retry_count=0
+    local response
+
+    while [[ ${retry_count} -le ${max_retries} ]]; do
+        if [[ ${retry_count} -gt 0 ]]; then
+            echo "Retry ${retry_count}/${max_retries}..." >&2
+            sleep 3
+        fi
+
+        if [[ -n "${GITHUB_TOKEN}" ]]; then
+            response=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "${url}")
+        else
+            response=$(curl -s "${url}")
+        fi
+
+        # Check if we got a valid response (non-empty and no error message)
+        if [[ -n "${response}" ]] && ! echo "${response}" | jq -e '.message' > /dev/null 2>&1; then
+            echo "${response}"
+            return 0
+        fi
+
+        if [[ ${retry_count} -lt ${max_retries} ]]; then
+            if echo "${response}" | jq -e '.message' > /dev/null 2>&1; then
+                echo "API Error: $(echo "${response}" | jq -r '.message'), retrying..." >&2
+            else
+                echo "Empty response, retrying..." >&2
+            fi
+        fi
+
+        ((retry_count++))
+    done
+
+    # All retries exhausted, return the last response anyway
+    echo "${response}"
+    return 1
 }
 
 # Function to get releases page by page
@@ -45,11 +76,8 @@ get_releases() {
         local api_url="https://api.${GH_HOST}/repos/${RELEASES_REPOSITORY}/releases?page=${page}&per_page=${per_page}"
         local response
 
-        response=$(make_api_request "${api_url}")
-
-        # Check if we got a valid response
-        if [[ -z "${response}" ]] || echo "${response}" | jq -e '.message' > /dev/null 2>&1; then
-            echo "Error: Failed to fetch releases from ${RELEASES_REPOSITORY}" >&2
+        if ! response=$(make_api_request "${api_url}"); then
+            echo "Error: Failed to fetch releases from ${RELEASES_REPOSITORY} after retries" >&2
             if echo "${response}" | jq -e '.message' > /dev/null 2>&1; then
                 echo "API Error: $(echo "${response}" | jq -r '.message')" >&2
             fi
