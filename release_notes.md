@@ -1,5 +1,7 @@
 update vscode to [@@MS_TAG@@](@@MS_URL@@)
 
+patches commit: @@PATCHES_COMMIT@@
+
 @@RELEASE_NOTES@@
 
 ## x86 64bits
