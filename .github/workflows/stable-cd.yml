@@ -54,9 +54,9 @@ jobs:
       release_version: ${{ needs.resolve.outputs.release_version }}
     secrets: inherit
 
-  windows:
-    needs: resolve
-    uses: ./.github/workflows/stable-windows.yml
-    with:
-      release_version: ${{ needs.resolve.outputs.release_version }}
-    secrets: inherit
+  # windows:
+  #   needs: resolve
+  #   uses: ./.github/workflows/stable-windows.yml
+  #   with:
+  #     release_version: ${{ needs.resolve.outputs.release_version }}
+  #   secrets: inherit
