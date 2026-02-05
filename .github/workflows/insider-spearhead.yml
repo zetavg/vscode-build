@@ -23,7 +23,7 @@ jobs:
     runs-on: macos-14
     env:
       APP_NAME: VSCodium
-      ASSETS_REPOSITORY: VSCodium/vscodium-insiders
+      ASSETS_REPOSITORY: ${{ github.repository }}-insiders
       BINARY_NAME: codium-insiders
       GH_REPO_PATH: ${{ github.repository }}
       ORG_NAME: ${{ github.repository_owner }}

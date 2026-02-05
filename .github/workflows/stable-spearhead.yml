@@ -20,7 +20,7 @@ jobs:
     runs-on: macos-14
     env:
       APP_NAME: VSCodium
-      ASSETS_REPOSITORY: VSCodium/vscodium
+      ASSETS_REPOSITORY: ${{ github.repository }}
       BINARY_NAME: codium
       GH_REPO_PATH: ${{ github.repository }}
       ORG_NAME: ${{ github.repository_owner }}
