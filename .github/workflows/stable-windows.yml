@@ -16,6 +16,20 @@ on:
       release_version:
         type: string
         description: Release version
+  workflow_call:
+    inputs:
+      force_version:
+        type: boolean
+        description: Force update version
+      generate_assets:
+        type: boolean
+        description: Generate assets
+      checkout_pr:
+        type: string
+        description: Checkout PR
+      release_version:
+        type: string
+        description: Release version
   repository_dispatch:
     types: [stable]
   push:
