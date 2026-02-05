@@ -17,6 +17,20 @@ on:
       release_version:
         type: string
         description: Release version
+  workflow_call:
+    inputs:
+      force_version:
+        type: boolean
+        description: Force update version
+      generate_assets:
+        type: boolean
+        description: Generate assets
+      checkout_pr:
+        type: string
+        description: Checkout PR
+      release_version:
+        type: string
+        description: Release version
   repository_dispatch:
     types: [stable]
   push:
@@ -40,7 +54,7 @@ env:
   OS_NAME: linux
   VERSIONS_REPOSITORY: ${{ github.repository_owner }}/versions
   VSCODE_QUALITY: stable
-  RELEASE_VERSION: ${{ github.event.inputs.release_version }}
+  RELEASE_VERSION: ${{ inputs.release_version || github.event.inputs.release_version }}
 
 jobs:
   check:
