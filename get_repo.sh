@@ -121,6 +121,7 @@ echo "Fetching patches..."
 git fetch --depth 100 patches main
 echo "Preparing build branch..."
 git checkout patches/main
+PATCHES_COMMIT=$( git rev-parse HEAD )
 git checkout -b ci-build
 echo "Rebasing patches..."
 git rebase "${MS_COMMIT}"
@@ -131,9 +132,11 @@ cd ..
 if [[ "${GITHUB_ENV}" ]]; then
   echo "MS_TAG=${MS_TAG}" >> "${GITHUB_ENV}"
   echo "MS_COMMIT=${MS_COMMIT}" >> "${GITHUB_ENV}"
+  echo "PATCHES_COMMIT=${PATCHES_COMMIT}" >> "${GITHUB_ENV}"
   echo "RELEASE_VERSION=${RELEASE_VERSION}" >> "${GITHUB_ENV}"
 fi
 
 export MS_TAG
 export MS_COMMIT
+export PATCHES_COMMIT
 export RELEASE_VERSION
