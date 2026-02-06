@@ -1,3 +1,15 @@
+# zetavg/vscode-build
+
+Build scripts for building zetavg/vscode, a customized version of VS Code.
+
+This is a fork of VSCodium/vscodium with [modifications](https://github.com/VSCodium/vscodium/compare/master...zetavg:vscode-build:master).
+
+---
+
+Below is the original README of the VSCodium/vscodium repository.
+
+---
+
 <div id="vscodium-logo" align="center">
     <br />
     <img src="./icons/stable/codium_cnl.svg" alt="VSCodium Logo" width="200"/>
