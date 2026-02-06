@@ -20,11 +20,24 @@ if [[ "${SHOULD_DEPLOY}" == "no" ]]; then
 else
   GITHUB_RESPONSE=$( curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.${GH_HOST}/repos/${ASSETS_REPOSITORY}/releases/latest" )
   LATEST_VERSION=$( echo "${GITHUB_RESPONSE}" | jq -c -r '.tag_name' )
+
+  # If the tag format is `<version>-p<hash>`, e.g. `1.85.1-pabc1234`
+  # Extract the patch commit short hash and strip the suffix for later comparison
+  if [[ "${LATEST_VERSION}" =~ -p([0-9a-f]+)$ ]]; then
+    PATCHES_COMMIT_SHORT_HASH="${BASH_REMATCH[1]}"
+    LATEST_VERSION="${LATEST_VERSION%-p${PATCHES_COMMIT_SHORT_HASH}}"
+  else
+    PATCHES_COMMIT_SHORT_HASH=""
+  fi
+
   RECHECK_ASSETS="${SHOULD_BUILD}"
 
   if [[ "${LATEST_VERSION}" =~ ^([0-9]+\.[0-9]+\.[0-5]) ]]; then
     if [[ "${MS_TAG}" != "${BASH_REMATCH[1]}" ]]; then
       echo "New VSCode version, new build"
+      export SHOULD_BUILD="yes"
+    elif [[ -n "${PATCHES_COMMIT_SHORT_HASH}" ]] && [[ "${PATCHES_COMMIT}" != "${PATCHES_COMMIT_SHORT_HASH}"* ]]; then
+      echo "Patches have been updated, new build"
       export SHOULD_BUILD="yes"
     elif [[ "${NEW_RELEASE}" == "true" ]]; then
       echo "New release build"
