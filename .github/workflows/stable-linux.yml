@@ -186,10 +186,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        # - slug: X64
-        #   vscode_arch: x64
-        #   npm_arch: x64
-        #   image: vscodium/vscodium-linux-build-agent:focal-x64
+        - slug: X64
+          vscode_arch: x64
+          npm_arch: x64
+          image: vscodium/vscodium-linux-build-agent:focal-x64
         - slug: ARM64
           vscode_arch: arm64
           npm_arch: arm64
