@@ -13,17 +13,17 @@ REPOSITORY_NAME="${ASSETS_REPOSITORY/*\//}"
 
 # Generate UTC timestamp for unique release identifier
 RELEASE_TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
-RELEASE_VERSION_WITH_TIMESTAMP="${RELEASE_VERSION}-${RELEASE_TIMESTAMP}"
+RELEASE_VERSION_WITH_PATCH="${RELEASE_VERSION}-p${PATCHES_COMMIT:0:7}"
 
 npm install -g github-release-cli
 
-if [[ $( gh release view "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_REPOSITORY}" 2>&1 ) =~ "release not found" ]]; then
-  echo "Creating release '${RELEASE_VERSION_WITH_TIMESTAMP}'"
+if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" 2>&1 ) =~ "release not found" ]]; then
+  echo "Creating release '${RELEASE_VERSION_WITH_PATCH}'"
 
   . ./utils.sh
 
   APP_NAME_LC="$( echo "${APP_NAME}" | awk '{print tolower($0)}' )"
-  VERSION="${RELEASE_VERSION%-insider}"
+  VERSION="${RELEASE_VERSION_WITH_PATCH%-insider}"
 
   if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
     NOTES="update vscode to [${MS_COMMIT}](https://github.com/microsoft/vscode/tree/${MS_COMMIT})"
@@ -40,11 +40,11 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_RE
     replace "s|@@RELEASE_NOTES@@||g" release_notes.md
     replace "s|@@VERSION@@|${VERSION}|g" release_notes.md
 
-    gh release create "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION}" --notes-file release_notes.md
+    gh release create "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION_WITH_PATCH}" --notes-file release_notes.md
   else
-    gh release create "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION}" --generate-notes
+    gh release create "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION_WITH_PATCH}" --generate-notes
 
-    RELEASE_NOTES=$( gh release view "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_REPOSITORY}" --json "body" --jq ".body" )
+    RELEASE_NOTES=$( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --json "body" --jq ".body" )
 
     replace "s|@@APP_NAME@@|${APP_NAME}|g" release_notes.md
     replace "s|@@APP_NAME_LC@@|${APP_NAME_LC}|g" release_notes.md
@@ -58,7 +58,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_RE
     replace "s|@@RELEASE_NOTES@@|${RELEASE_NOTES//$'\n'/\\n}|g" release_notes.md
     replace "s|@@VERSION@@|${VERSION}|g" release_notes.md
 
-    gh release edit "${RELEASE_VERSION_WITH_TIMESTAMP}" --repo "${ASSETS_REPOSITORY}" --notes-file release_notes.md
+    gh release edit "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --notes-file release_notes.md
   fi
 fi
 
@@ -69,19 +69,19 @@ set +e
 for FILE in *; do
   if [[ -f "${FILE}" ]] && [[ "${FILE}" != *.sha1 ]] && [[ "${FILE}" != *.sha256 ]]; then
     echo "::group::Uploading '${FILE}' at $( date "+%T" )"
-    gh release upload --repo "${ASSETS_REPOSITORY}" "${RELEASE_VERSION_WITH_TIMESTAMP}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
+    gh release upload --repo "${ASSETS_REPOSITORY}" "${RELEASE_VERSION_WITH_PATCH}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
 
     EXIT_STATUS=$?
     echo "exit: ${EXIT_STATUS}"
 
     if (( "${EXIT_STATUS}" )); then
       for (( i=0; i<10; i++ )); do
-        github-release delete --owner "${REPOSITORY_OWNER}" --repo "${REPOSITORY_NAME}" --tag "${RELEASE_VERSION_WITH_TIMESTAMP}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
+        github-release delete --owner "${REPOSITORY_OWNER}" --repo "${REPOSITORY_NAME}" --tag "${RELEASE_VERSION_WITH_PATCH}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
 
         sleep $(( 15 * (i + 1)))
 
         echo "RE-Uploading '${FILE}' at $( date "+%T" )"
-        gh release upload --repo "${ASSETS_REPOSITORY}" "${RELEASE_VERSION_WITH_TIMESTAMP}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
+        gh release upload --repo "${ASSETS_REPOSITORY}" "${RELEASE_VERSION_WITH_PATCH}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
 
         EXIT_STATUS=$?
         echo "exit: ${EXIT_STATUS}"
@@ -95,7 +95,7 @@ for FILE in *; do
       if (( "${EXIT_STATUS}" )); then
         echo "'${FILE}' hasn't been uploaded!"
 
-        github-release delete --owner "${REPOSITORY_OWNER}" --repo "${REPOSITORY_NAME}" --tag "${RELEASE_VERSION_WITH_TIMESTAMP}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
+        github-release delete --owner "${REPOSITORY_OWNER}" --repo "${REPOSITORY_NAME}" --tag "${RELEASE_VERSION_WITH_PATCH}" "${FILE}" "${FILE}.sha1" "${FILE}.sha256"
 
         exit 1
       fi

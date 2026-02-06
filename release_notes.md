@@ -1,6 +1,4 @@
-update vscode to [@@MS_TAG@@](@@MS_URL@@)
-
-patches commit: @@PATCHES_COMMIT@@
+VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/vscode) `@@PATCHES_COMMIT@@`.
 
 @@RELEASE_NOTES@@
 
