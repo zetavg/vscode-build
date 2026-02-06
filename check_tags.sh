@@ -18,16 +18,28 @@ APP_NAME_LC="$( echo "${APP_NAME}" | awk '{print tolower($0)}' )"
 if [[ "${SHOULD_DEPLOY}" == "no" ]]; then
   ASSETS="null"
 else
-  GITHUB_RESPONSE=$( curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.${GH_HOST}/repos/${ASSETS_REPOSITORY}/releases/latest" )
-  LATEST_VERSION=$( echo "${GITHUB_RESPONSE}" | jq -c -r '.tag_name' )
-
-  # If the tag format is `<version>-p<hash>`, e.g. `1.85.1-pabc1234`
-  # Extract the patch commit short hash and strip the suffix for later comparison
-  if [[ "${LATEST_VERSION}" =~ -p([0-9a-f]+)$ ]]; then
-    PATCHES_COMMIT_SHORT_HASH="${BASH_REMATCH[1]}"
-    LATEST_VERSION="${LATEST_VERSION%-p${PATCHES_COMMIT_SHORT_HASH}}"
+  # If RELEASE_VERSION is already set (from workflow input), use that specific version
+  # Otherwise query the latest release
+  if [[ -n "${RELEASE_VERSION}" ]]; then
+    # Construct the tag name with patch suffix
+    RELEASE_TAG="${RELEASE_VERSION}-p${PATCHES_COMMIT:0:7}"
+    echo "Checking specific release '${RELEASE_TAG}' from GitHub API for repository ${ASSETS_REPOSITORY}..."
+    GITHUB_RESPONSE=$( curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.${GH_HOST}/repos/${ASSETS_REPOSITORY}/releases/tags/${RELEASE_TAG}" )
+    LATEST_VERSION="${RELEASE_VERSION}"
+    PATCHES_COMMIT_SHORT_HASH="${PATCHES_COMMIT:0:7}"
   else
-    PATCHES_COMMIT_SHORT_HASH=""
+    echo "Checking latest release from GitHub API for repository ${ASSETS_REPOSITORY}..."
+    GITHUB_RESPONSE=$( curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.${GH_HOST}/repos/${ASSETS_REPOSITORY}/releases/latest" )
+    LATEST_VERSION=$( echo "${GITHUB_RESPONSE}" | jq -c -r '.tag_name' )
+
+    # If the tag format is `<version>-p<hash>`, e.g. `1.85.1-pabc1234`
+    # Extract the patch commit short hash and strip the suffix for later comparison
+    if [[ "${LATEST_VERSION}" =~ -p([0-9a-f]+)$ ]]; then
+      PATCHES_COMMIT_SHORT_HASH="${BASH_REMATCH[1]}"
+      LATEST_VERSION="${LATEST_VERSION%-p${PATCHES_COMMIT_SHORT_HASH}}"
+    else
+      PATCHES_COMMIT_SHORT_HASH=""
+    fi
   fi
 
   RECHECK_ASSETS="${SHOULD_BUILD}"
