@@ -1,4 +1,4 @@
-VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/vscode) `@@PATCHES_COMMIT@@`.
+Based on VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/vscode) `@@PATCHES_COMMIT@@`.
 
 <!--
 
