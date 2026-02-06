@@ -1,5 +1,7 @@
 VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/vscode) `@@PATCHES_COMMIT@@`.
 
+<!--
+
 @@RELEASE_NOTES@@
 
 ## x86 64bits
@@ -284,3 +286,5 @@ VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/
     <td><a href="https://github.com/@@ASSETS_REPOSITORY@@/releases/download/@@VERSION@@@@QUALITY@@/@@APP_NAME_LC@@-reh-web-linux-s390x-@@VERSION@@@@QUALITY@@.tar.gz">@@APP_NAME_LC@@-reh-web-linux-s390x-@@VERSION@@@@QUALITY@@.tar.gz</a></td>
   </tr>
 </table>
+
+-->
