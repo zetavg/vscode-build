@@ -14,12 +14,12 @@ else
   export SHOULD_BUILD_DMG="no"
 fi
 
-if [[ -z $( contains "${APP_NAME_LC}-reh-darwin-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
-  echo "Building on MacOS because we have no REH archive"
-  export SHOULD_BUILD="yes"
-else
-  export SHOULD_BUILD_REH="no"
-fi
+# if [[ -z $( contains "${APP_NAME_LC}-reh-darwin-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
+#   echo "Building on MacOS because we have no REH archive"
+#   export SHOULD_BUILD="yes"
+# else
+#   export SHOULD_BUILD_REH="no"
+# fi
 
 if [[ -z $( contains "${APP_NAME_LC}-reh-web-darwin-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
   echo "Building on MacOS because we have no REH-web archive"

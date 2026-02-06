@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
 
 if [[ "${CHECK_ONLY_REH}" == "yes" ]]; then
+  foo=bar # placeholder to avoid syntax error due to empty block
 
-  if [[ -z $( contains "${APP_NAME_LC}-reh-linux-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
-    echo "Building on Linux ${VSCODE_ARCH} because we have no REH archive"
-    export SHOULD_BUILD="yes"
-  else
-    echo "Already have the Linux REH ${VSCODE_ARCH} archive"
-    export SHOULD_BUILD_REH="no"
-  fi
+  # if [[ -z $( contains "${APP_NAME_LC}-reh-linux-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
+  #   echo "Building on Linux ${VSCODE_ARCH} because we have no REH archive"
+  #   export SHOULD_BUILD="yes"
+  # else
+  #   echo "Already have the Linux REH ${VSCODE_ARCH} archive"
+  #   export SHOULD_BUILD_REH="no"
+  # fi
 
-  if [[ -z $( contains "${APP_NAME_LC}-reh-web-linux-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
-    echo "Building on Linux ${VSCODE_ARCH} because we have no REH-web archive"
-    export SHOULD_BUILD="yes"
-  else
-    echo "Already have the Linux REH-web ${VSCODE_ARCH} archive"
-    export SHOULD_BUILD_REH_WEB="no"
-  fi
+  # if [[ -z $( contains "${APP_NAME_LC}-reh-web-linux-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
+  #   echo "Building on Linux ${VSCODE_ARCH} because we have no REH-web archive"
+  #   export SHOULD_BUILD="yes"
+  # else
+  #   echo "Already have the Linux REH-web ${VSCODE_ARCH} archive"
+  #   export SHOULD_BUILD_REH_WEB="no"
+  # fi
 
 else
 
@@ -50,12 +51,12 @@ else
       export SHOULD_BUILD_SNAP="no"
     fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-arm64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux arm64 because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-arm64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux arm64 because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
     if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-arm64-${RELEASE_VERSION}.tar.gz" ) ]]; then
       echo "Building on Linux arm64 because we have no REH-web archive"
@@ -102,19 +103,19 @@ else
       export SHOULD_BUILD_TAR="no"
     fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-armhf-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux arm because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-armhf-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux arm because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-armhf-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux arm because we have no REH-web archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH_WEB="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-armhf-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux arm because we have no REH-web archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH_WEB="no"
+    # fi
 
     export SHOULD_BUILD_APPIMAGE="no"
 
@@ -156,19 +157,19 @@ else
       export SHOULD_BUILD_TAR="no"
     fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-ppc64le-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux PowerPC64LE because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-ppc64le-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux PowerPC64LE because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-ppc64le-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux PowerPC64LE because we have no REH-web archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH_WEB="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-ppc64le-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux PowerPC64LE because we have no REH-web archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH_WEB="no"
+    # fi
 
     if [[ -z $( contains "${APP_NAME_LC}-cli-linux-ppc64le-${RELEASE_VERSION}.tar.gz" ) ]]; then
       echo "Building on Linux PowerPC64LE because we have no CLI archive"
@@ -195,19 +196,19 @@ else
       export SHOULD_BUILD_TAR="no"
     fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-riscv64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux RISC-V 64 because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-riscv64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux RISC-V 64 because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-riscv64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux RISC-V 64 because we have no REH-web archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH_WEB="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-riscv64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux RISC-V 64 because we have no REH-web archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH_WEB="no"
+    # fi
 
     export SHOULD_BUILD_CLI="no"
 
@@ -229,19 +230,19 @@ else
       export SHOULD_BUILD_TAR="no"
     fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-loong64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux Loong64 because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-loong64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux Loong64 because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-loong64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux Loong64 because we have no REH-web archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH_WEB="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-loong64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux Loong64 because we have no REH-web archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH_WEB="no"
+    # fi
 
     export SHOULD_BUILD_CLI="no"
 
@@ -257,25 +258,25 @@ else
     SHOULD_BUILD_RPM="no"
     SHOULD_BUILD_TAR="no"
 
-    if [[ -z $( contains "${APP_NAME_LC}-reh-linux-s390x-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux s390x because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ -z $( contains "${APP_NAME_LC}-reh-linux-s390x-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux s390x because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
-    if [[ -z $( contains "${APP_NAME_LC}-reh-web-linux-s390x-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux s390x because we have no REH-web archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH_WEB="no"
-    fi
+    # if [[ -z $( contains "${APP_NAME_LC}-reh-web-linux-s390x-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux s390x because we have no REH-web archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH_WEB="no"
+    # fi
 
     export SHOULD_BUILD_CLI="no"
 
-    if [[ "${SHOULD_BUILD}" != "yes" ]]; then
-      echo "Already have all the Linux s390x builds"
-    fi
+    # if [[ "${SHOULD_BUILD}" != "yes" ]]; then
+    #   echo "Already have all the Linux s390x builds"
+    # fi
   fi
 
   # linux-x64
@@ -317,19 +318,19 @@ else
       export SHOULD_BUILD_SNAP="no"
     fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-x64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux x64 because we have no REH archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-linux-x64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux x64 because we have no REH archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH="no"
+    # fi
 
-    if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-x64-${RELEASE_VERSION}.tar.gz" ) ]]; then
-      echo "Building on Linux x64 because we have no REH-web archive"
-      export SHOULD_BUILD="yes"
-    else
-      export SHOULD_BUILD_REH_WEB="no"
-    fi
+    # if [[ "${CHECK_REH}" != "no" && -z $( contains "${APP_NAME_LC}-reh-web-linux-x64-${RELEASE_VERSION}.tar.gz" ) ]]; then
+    #   echo "Building on Linux x64 because we have no REH-web archive"
+    #   export SHOULD_BUILD="yes"
+    # else
+    #   export SHOULD_BUILD_REH_WEB="no"
+    # fi
 
     if [[ -z $( contains "${APP_NAME_LC}-cli-linux-x64-${RELEASE_VERSION}.tar.gz" ) ]]; then
       echo "Building on Linux x64 because we have no CLI archive"

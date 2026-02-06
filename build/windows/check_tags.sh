@@ -78,12 +78,12 @@ else
     export SHOULD_BUILD_MSI_NOUP="no"
   fi
 
-  if [[ -z $( contains "${APP_NAME_LC}-reh-win32-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
-    echo "Building on Windows x64 because we have no REH archive"
-    export SHOULD_BUILD="yes"
-  else
-    export SHOULD_BUILD_REH="no"
-  fi
+  # if [[ -z $( contains "${APP_NAME_LC}-reh-win32-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
+  #   echo "Building on Windows x64 because we have no REH archive"
+  #   export SHOULD_BUILD="yes"
+  # else
+  #   export SHOULD_BUILD_REH="no"
+  # fi
 
   if [[ -z $( contains "${APP_NAME_LC}-reh-web-win32-${VSCODE_ARCH}-${RELEASE_VERSION}.tar.gz" ) ]]; then
     echo "Building on Windows x64 because we have no REH-web archive"
