@@ -20,8 +20,12 @@ ingredients:
     - ls @@APPNAME@@_*.deb | cut -d _ -f 2 > VERSION
 
 script:
-  - sed -i -e 's|/usr/share/pixmaps/||g' usr/share/applications/@@APPNAME@@.desktop
-  - cp usr/share/applications/@@APPNAME@@.desktop .
+  - echo "Looking for desktop files..."
+  - find usr/share/applications -name "*.desktop" -type f || echo "No desktop files found in usr/share/applications"
+  - DESKTOP_FILE=$(find usr/share/applications -name "*.desktop" -type f | head -n 1)
+  - echo "Selected desktop file: $DESKTOP_FILE"
+  - test -n "$DESKTOP_FILE" && sed -i -e 's|/usr/share/pixmaps/||g' "$DESKTOP_FILE" || echo "Warning: No desktop file found"
+  - test -n "$DESKTOP_FILE" && cp "$DESKTOP_FILE" . || echo "Warning: Could not copy desktop file"
   - cp usr/share/pixmaps/@@ICON@@.png .
   - /usr/bin/convert @@ICON@@.png -resize 512x512 usr/share/icons/hicolor/512x512/apps/@@ICON@@.png
   - /usr/bin/convert @@ICON@@.png -resize 256x256 usr/share/icons/hicolor/256x256/apps/@@ICON@@.png
