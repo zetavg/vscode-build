@@ -14,5 +14,5 @@ index d3ab651..1000abc 100644
 @@ -272,3 +272,3 @@ function packageTask(platform: string, arch: string, sourceFolderName: string, d
  		const productJsonStream = gulp.src(['product.json'], { base: '.' })
 -			.pipe(jsonEditor({ commit, date: readISODate('out-build'), checksums, version }))
-+			.pipe(jsonEditor({ commit, date: readISODate('out-build'), checksums, version, serverDownloadUrlTemplate: 'https://github.com/!!ASSETS_REPOSITORY!!/releases/download/!!RELEASE_VERSION!!/!!APP_NAME_LC!!-reh-${os}-${arch}-!!RELEASE_VERSION!!.tar.gz' }))
++			.pipe(jsonEditor({ commit, date: readISODate('out-build'), checksums, version, serverDownloadUrlTemplate: 'https://github.com/VSCodium/vscodium/releases/download/!!RELEASE_VERSION!!/!!APP_NAME_LC!!-reh-${os}-${arch}-!!RELEASE_VERSION!!.tar.gz' }))
  			.pipe(es.through(function (file) {
