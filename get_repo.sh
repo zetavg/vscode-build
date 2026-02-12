@@ -71,9 +71,12 @@ else
 
   if [[ "${MS_TAG}" == "$( jq -r '.tag' "./upstream/${VSCODE_QUALITY}.json" )" ]]; then
     MS_COMMIT=$( jq -r '.commit' "./upstream/${VSCODE_QUALITY}.json" )
-  else
-    echo "Error: No MS_COMMIT for ${RELEASE_VERSION}"
-    exit 1
+
+  # This error prevented fallback lookup via git ls-remote.
+  # When building after upstream has moved to newer versions (e.g., 1.110), MS_TAG won't match, but MS_COMMIT can still be resolved from git tags. Leaving MS_COMMIT empty here allows the fallback mechanism to work correctly.
+  # else
+    # echo "Error: No MS_COMMIT for ${RELEASE_VERSION}"
+    # exit 1
   fi
 fi
 
