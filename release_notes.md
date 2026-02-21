@@ -1,4 +1,10 @@
-Based on VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/vscode) `@@PATCHES_COMMIT@@`.
+Based on VS Code [@@MS_TAG@@](@@MS_URL@@) with [zetavg/vscode](https://github.com/zetavg/vscode) [`@@PATCHES_COMMIT_SHORT@@`](https://github.com/microsoft/vscode/compare/main...zetavg:vscode:@@PATCHES_COMMIT@@).
+
+## Downloads
+
+* **macOS arm64**: <a href="https://github.com/@@ASSETS_REPOSITORY@@/releases/download/@@VERSION@@@@QUALITY@@/@@APP_NAME@@-darwin-arm64-@@VERSION@@@@QUALITY@@.zip">@@APP_NAME@@-darwin-arm64-@@VERSION@@@@QUALITY@@.zip</a>
+* **macOS x64**: <a href="https://github.com/@@ASSETS_REPOSITORY@@/releases/download/@@VERSION@@@@QUALITY@@/@@APP_NAME@@-darwin-x64-@@VERSION@@@@QUALITY@@.zip">@@APP_NAME@@-darwin-x64-@@VERSION@@@@QUALITY@@.zip</a>
+* **Linux**: See assets attached to this release for various Linux distributions and architectures.
 
 <!--
 
