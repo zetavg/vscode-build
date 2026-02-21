@@ -13,7 +13,8 @@ REPOSITORY_NAME="${ASSETS_REPOSITORY/*\//}"
 
 # Generate UTC timestamp for unique release identifier
 RELEASE_TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
-RELEASE_VERSION_WITH_PATCH="${RELEASE_VERSION}-p${PATCHES_COMMIT:0:7}"
+PATCHES_COMMIT_SHORT="${PATCHES_COMMIT:0:7}"
+RELEASE_VERSION_WITH_PATCH="${RELEASE_VERSION}-p${PATCHES_COMMIT_SHORT}"
 
 npm install -g github-release-cli
 
@@ -34,6 +35,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
     replace "s|@@ASSETS_REPOSITORY@@|${ASSETS_REPOSITORY}|g" release_notes.md
     replace "s|@@BINARY_NAME@@|${BINARY_NAME}|g" release_notes.md
     replace "s|@@PATCHES_COMMIT@@|${PATCHES_COMMIT}|g" release_notes.md
+    replace "s|@@PATCHES_COMMIT_SHORT@@|${PATCHES_COMMIT_SHORT}|g" release_notes.md
     replace "s|@@MS_TAG@@|${MS_COMMIT}|g" release_notes.md
     replace "s|@@MS_URL@@|https://github.com/microsoft/vscode/tree/${MS_COMMIT}|g" release_notes.md
     replace "s|@@QUALITY@@|-insider|g" release_notes.md
@@ -52,6 +54,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
     replace "s|@@ASSETS_REPOSITORY@@|${ASSETS_REPOSITORY}|g" release_notes.md
     replace "s|@@BINARY_NAME@@|${BINARY_NAME}|g" release_notes.md
     replace "s|@@PATCHES_COMMIT@@|${PATCHES_COMMIT}|g" release_notes.md
+    replace "s|@@PATCHES_COMMIT_SHORT@@|${PATCHES_COMMIT_SHORT}|g" release_notes.md
     replace "s|@@MS_TAG@@|${MS_TAG}|g" release_notes.md
     replace "s|@@MS_URL@@|https://code.visualstudio.com/updates/v$( echo "${MS_TAG//./_}" | cut -d'_' -f 1,2 )|g" release_notes.md
     replace "s|@@QUALITY@@||g" release_notes.md
