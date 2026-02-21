@@ -15,6 +15,7 @@ REPOSITORY_NAME="${ASSETS_REPOSITORY/*\//}"
 RELEASE_TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
 PATCHES_COMMIT_SHORT="${PATCHES_COMMIT:0:7}"
 RELEASE_VERSION_WITH_PATCH="${RELEASE_VERSION}-p${PATCHES_COMMIT_SHORT}"
+VERSION_WITHOUT_PATCH_SUFFIX="${RELEASE_VERSION}"
 
 npm install -g github-release-cli
 
@@ -41,6 +42,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
     replace "s|@@QUALITY@@|-insider|g" release_notes.md
     replace "s|@@RELEASE_NOTES@@||g" release_notes.md
     replace "s|@@VERSION@@|${VERSION}|g" release_notes.md
+    replace "s|@@VERSION_WITHOUT_PATCH_SUFFIX@@|${VERSION}|g" release_notes.md
 
     gh release create "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION_WITH_PATCH}" --notes-file release_notes.md
   else
@@ -60,6 +62,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
     replace "s|@@QUALITY@@||g" release_notes.md
     replace "s|@@RELEASE_NOTES@@|${RELEASE_NOTES//$'\n'/\\n}|g" release_notes.md
     replace "s|@@VERSION@@|${VERSION}|g" release_notes.md
+    replace "s|@@VERSION_WITHOUT_PATCH_SUFFIX@@|${VERSION_WITHOUT_PATCH_SUFFIX}|g" release_notes.md
 
     gh release edit "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --notes-file release_notes.md
   fi
