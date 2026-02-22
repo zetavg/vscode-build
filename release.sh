@@ -42,7 +42,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
     replace "s|@@QUALITY@@|-insider|g" release_notes.md
     replace "s|@@RELEASE_NOTES@@||g" release_notes.md
     replace "s|@@VERSION@@|${VERSION}|g" release_notes.md
-    replace "s|@@VERSION_WITHOUT_PATCH_SUFFIX@@|${VERSION}|g" release_notes.md
+    replace "s|@@VERSION_WITHOUT_PATCH_SUFFIX@@|${VERSION_WITHOUT_PATCH_SUFFIX}|g" release_notes.md
 
     gh release create "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSITORY}" --title "${RELEASE_VERSION_WITH_PATCH}" --notes-file release_notes.md
   else
