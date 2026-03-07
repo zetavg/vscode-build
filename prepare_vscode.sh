@@ -99,7 +99,7 @@ else
   setpath "product" "nameLong" "Code"
   setpath "product" "applicationName" "code"
   setpath "product" "linuxIconName" "vscodium"
-  setpath "product" "quality" "stable"
+  setpath "product" "quality" "insider"
   setpath "product" "urlProtocol" "vscodium"
   setpath "product" "serverApplicationName" "codium-server"
   setpath "product" "serverDataFolderName" ".vscodium-server"
