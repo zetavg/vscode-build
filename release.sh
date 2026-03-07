@@ -24,6 +24,9 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
 
   . ./utils.sh
 
+  # Resolve the actual git tag on Microsoft's repo (may be e.g. '1.110' instead of '1.110.0')
+  MS_TAG_FOR_COMPARE=$( ./resolve_ms_tag.sh "${MS_TAG}" ) || MS_TAG_FOR_COMPARE="${MS_TAG}"
+
   APP_NAME_LC="$( echo "${APP_NAME}" | awk '{print tolower($0)}' )"
   VERSION="${RELEASE_VERSION_WITH_PATCH%-insider}"
 
@@ -57,7 +60,7 @@ if [[ $( gh release view "${RELEASE_VERSION_WITH_PATCH}" --repo "${ASSETS_REPOSI
     replace "s|@@BINARY_NAME@@|${BINARY_NAME}|g" release_notes.md
     replace "s|@@PATCHES_COMMIT@@|${PATCHES_COMMIT}|g" release_notes.md
     replace "s|@@PATCHES_COMMIT_SHORT@@|${PATCHES_COMMIT_SHORT}|g" release_notes.md
-    replace "s|@@MS_TAG@@|${MS_TAG}|g" release_notes.md
+    replace "s|@@MS_TAG@@|${MS_TAG_FOR_COMPARE}|g" release_notes.md
     replace "s|@@MS_URL@@|https://code.visualstudio.com/updates/v$( echo "${MS_TAG//./_}" | cut -d'_' -f 1,2 )|g" release_notes.md
     replace "s|@@QUALITY@@||g" release_notes.md
     replace "s|@@RELEASE_NOTES@@|${RELEASE_NOTES//$'\n'/\\n}|g" release_notes.md
