@@ -95,16 +95,13 @@ if [[ -z "${MS_TAG}" ]]; then
   MS_COMMIT=$( echo "${UPDATE_INFO}" | jq -r '.version' )
   MS_TAG=$( echo "${UPDATE_INFO}" | jq -r '.name' )
 elif [[ -z "${MS_COMMIT}" ]]; then
-  REFERENCE=$( git ls-remote --tags | grep -x ".*refs\/tags\/${MS_TAG}" | head -1 )
+  RESOLVED_TAG=$( ../resolve_ms_tag.sh "${MS_TAG}" origin )
+  REFERENCE=$( git ls-remote --tags origin "refs/tags/${RESOLVED_TAG}" | head -1 )
 
-  if [[ -z "${REFERENCE}" ]]; then
-    echo "Error: The following tag can't be found: ${MS_TAG}"
-    exit 1
-  elif [[ "${REFERENCE}" =~ ^([[:alnum:]]+)[[:space:]]+refs\/tags\/([0-9]+\.[0-9]+\.[0-5])$ ]]; then
+  if [[ "${REFERENCE}" =~ ^([[:alnum:]]+)[[:space:]] ]]; then
     MS_COMMIT="${BASH_REMATCH[1]}"
-    MS_TAG="${BASH_REMATCH[2]}"
   else
-    echo "Error: The following reference can't be parsed: ${REFERENCE}"
+    echo "Error: Could not resolve commit for tag '${RESOLVED_TAG}'"
     exit 1
   fi
 fi
