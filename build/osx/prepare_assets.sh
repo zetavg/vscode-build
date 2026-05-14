@@ -76,9 +76,9 @@ if [[ "${SHOULD_BUILD_SRC}" == "yes" ]]; then
   git archive --format zip --output="./assets/${APP_NAME}-${RELEASE_VERSION}-src.zip" HEAD
 fi
 
-if [[ -n "${CERTIFICATE_OSX_P12_DATA}" ]]; then
-  # echo "+ clean"
-  # security delete-keychain "${KEYCHAIN}"
-  # # shellcheck disable=SC2086
-  # security list-keychains -s $KEYCHAINS
-fi
+# if [[ -n "${CERTIFICATE_OSX_P12_DATA}" ]]; then
+#   echo "+ clean"
+#   security delete-keychain "${KEYCHAIN}"
+#   # shellcheck disable=SC2086
+#   security list-keychains -s $KEYCHAINS
+# fi
