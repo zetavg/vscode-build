@@ -147,6 +147,7 @@ jobs:
         run: |
           find vscode -type f -not -path "*/node_modules/*" -not -path "vscode/.build/node/*" -not -path "vscode/.git/*" > vscode.txt
           echo "vscode/.build/extensions/node_modules" >> vscode.txt
+          find vscode/.build/extensions -mindepth 2 -maxdepth 2 -type d -name node_modules >> vscode.txt
           echo "vscode/.git" >> vscode.txt
           tar -czf vscode.tar.gz -T vscode.txt
         if: env.SHOULD_BUILD == 'yes'
